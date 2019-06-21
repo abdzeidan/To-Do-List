@@ -11,6 +11,7 @@
 <script>
 import Todo from "@/components/Todo.vue";
 import TodoForm from "@/components/TodoForm.vue";
+import axios from "axios";
 
 export default {
   data() {
@@ -28,6 +29,17 @@ export default {
     },
     addTodo(todo) {
       this.todoList.push(todo);
+      axios
+        .put(
+          "https://zeid0012-vue-and-axios.firebaseio.com/data.json",
+          this.todoList
+        )
+        .then(response => {
+          console.log("Your data was saved. Status: " + response.status);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
