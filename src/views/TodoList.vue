@@ -26,6 +26,10 @@ export default {
   methods: {
     appDeleteTodo(index) {
       this.todoList.splice(index, 1);
+      axios.put(
+        "https://zeid0012-vue-and-axios.firebaseio.com/data.json",
+        this.todoList
+      );
     },
     addTodo(todo) {
       this.todoList.push(todo);
@@ -38,9 +42,20 @@ export default {
           console.log("Your data was saved. Status: " + response.status);
         })
         .catch(error => {
-          console.log(error);
+          console.log("There was an error in getting data." + error.response);
         });
     }
+  },
+  created() {
+    axios
+      .get("https://zeid0012-vue-and-axios.firebaseio.com/data.json")
+      .then(response => {
+        console.log(response.data);
+        if (response.data) {
+          this.todoList = response.data;
+        }
+      })
+      .catch();
   }
 };
 </script>
